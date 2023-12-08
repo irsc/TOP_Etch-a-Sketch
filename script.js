@@ -12,9 +12,7 @@ function createGrid(range){
         container.className = "float";
     }
     
-    let width = container.offsetWidth;
-
-    let size = width / range;
+    let size = container.offsetWidth/ range;
     while (i < range*range) {
         let div =  document.createElement("div");
         div.style.width = size + "px";
@@ -24,7 +22,8 @@ function createGrid(range){
     }
 
     container.addEventListener("mouseover",(e)=>{
-        e.target.style.background = 'black';
+
+        e.target.style.background = randomHsl();
         
     });
 }
@@ -46,6 +45,12 @@ function newSketch(){
     }
     createGrid(number);
 }
+
+function randomHsl(light = "50%") {
+    //return `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
+    return 'hsla(' + (Math.random() * 360) + ', 100%,'+light+', 1)';
+}
+
 const btn = document.getElementById("refresh");
 btn.addEventListener("click",newSketch);
 
