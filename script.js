@@ -22,14 +22,23 @@ function createGrid(range){
     }
 
     container.addEventListener("mouseover",(e)=>{
-
-        e.target.style.background = randomHsl();
+        let darkening = 10;
+        if(!e.target.dataset.hue){
+            e.target.dataset.hue = (Math.random() * 360);
+            e.target.dataset.light = 90;
+        }else{
+            if(e.target.dataset.light>= darkening){
+                e.target.dataset.light -= darkening;
+            } 
+        }
+        e.target.style.background = randomHsl(e.target.dataset.hue,e.target.dataset.light);
+        
         
     });
 }
 
 function newSketch(){
-    let number = Number(prompt("Enter the size for the grid","16"));
+    let number = Number(prompt("Enter the number of pixels for the side of the grid","16"));
 
     const divContainer = document.getElementById("container");
     divContainer.style.background = "white";
@@ -42,13 +51,15 @@ function newSketch(){
     }else if(number < 2){
         number = 2;
         alert("The minimum grid is 2 x 2. Grid adjusted!")
+    }else if(isNaN(number)){
+        alert("Please enter a valid number");
     }
     createGrid(number);
 }
 
-function randomHsl(light = "50%") {
+function randomHsl(hue , light) {
     //return `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
-    return 'hsla(' + (Math.random() * 360) + ', 100%,'+light+', 1)';
+    return 'hsla(' + hue + ', 100%,'+light+'%, 1)';
 }
 
 const btn = document.getElementById("refresh");
